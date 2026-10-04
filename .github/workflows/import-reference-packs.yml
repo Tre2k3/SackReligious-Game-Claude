@@ -1,0 +1,48 @@
+name: Import SackReligious reference packs
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/import-reference-packs.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download reference packs
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p reference-packs
+
+          curl -L --fail --retry 3 -o reference-packs/SackReligious_Activity_Locations_Production_Pack_v1.zip 'https://raw.githubusercontent.com/Tre2k3/SackReligious-Game/main/reference-packs/SackReligious_Activity_Locations_Production_Pack_v1.zip?token=BA3NKEJ5LEIUQKTEQ3YTLHLKYKCIXAA'
+          curl -L --fail --retry 3 -o reference-packs/SackReligious_Character_Bible_AI_Reference_Pack.zip 'https://raw.githubusercontent.com/Tre2k3/SackReligious-Game/main/reference-packs/SackReligious_Character_Bible_AI_Reference_Pack.zip?token=BA3NKEJNNGPT5MM4YYXODCDKYKCIXAA'
+          curl -L --fail --retry 3 -o reference-packs/SackReligious_Console_Quality_Game_Concepts.zip 'https://raw.githubusercontent.com/Tre2k3/SackReligious-Game/main/reference-packs/SackReligious_Console_Quality_Game_Concepts.zip?token=BA3NKEJ2O7RWXA3ZA53W7G3KYKCIXAA'
+          curl -L --fail --retry 3 -o reference-packs/SackReligious_Gameplay_Props_Items_Production_Pack_v1.zip 'https://raw.githubusercontent.com/Tre2k3/SackReligious-Game/main/reference-packs/SackReligious_Gameplay_Props_Items_Production_Pack_v1.zip?token=BA3NKEITNSNPAQ2RGUEJF6LKYKCIXAA'
+          curl -L --fail --retry 3 -o reference-packs/SackReligious_HQ_Production_Reference_Pack_v1.zip 'https://raw.githubusercontent.com/Tre2k3/SackReligious-Game/main/reference-packs/SackReligious_HQ_Production_Reference_Pack_v1.zip?token=BA3NKEI5M6ADTZYZ6O6EAVTKYKCIXAA'
+          curl -L --fail --retry 3 -o reference-packs/SackReligious_UI_HUD_Production_Pack_v1.zip 'https://raw.githubusercontent.com/Tre2k3/SackReligious-Game/main/reference-packs/SackReligious_UI_HUD_Production_Pack_v1.zip?token=BA3NKEPEZIWGJNUNCZULW4TKYKCIXAA'
+          curl -L --fail --retry 3 -o reference-packs/SackReligious_Vehicle_Street_Systems_Production_Pack_v1.zip 'https://raw.githubusercontent.com/Tre2k3/SackReligious-Game/main/reference-packs/SackReligious_Vehicle_Street_Systems_Production_Pack_v1.zip?token=BA3NKENLVTUCZRWMKMQ2FSTKYKCIXAA'
+          curl -L --fail --retry 3 -o reference-packs/SackReligious_World_Buildings_Reference_Pack_v1.zip 'https://raw.githubusercontent.com/Tre2k3/SackReligious-Game/main/reference-packs/SackReligious_World_Buildings_Reference_Pack_v1.zip?token=BA3NKEONJUH3KTWGGV4CMJLKYKCIXAA'
+
+          for f in reference-packs/*.zip; do
+            unzip -t "$f" >/dev/null
+          done
+
+      - name: Commit reference packs
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add reference-packs/*.zip
+          if git diff --cached --quiet; then
+            exit 0
+          fi
+          git commit -m "Add SackReligious production reference packs"
+          git push
