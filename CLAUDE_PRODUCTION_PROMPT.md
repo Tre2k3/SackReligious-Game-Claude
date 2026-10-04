@@ -1,5 +1,7 @@
 # Claude Production Build Prompt — $ackReligious: Memphis
 
+> **Reference-pack sync note:** This repository is the Claude working repository. The canonical private source copies of the eight production ZIPs currently live in `Tre2k3/SackReligious-Game/reference-packs/`. If `reference-packs/` is not present here when you begin, use authenticated GitHub access to copy those eight files into this repository before implementation. Verify filenames and ZIP integrity against `REFERENCE_PACKS_MANIFEST.md`. Do not substitute generic assets for a missing pack.
+
 You are taking over active production development of **$ackReligious: Memphis**.
 
 This is not a throwaway prototype. Treat this as a serious production pass toward a cohesive commercial-quality game that can ultimately work on desktop, mobile, and console-style controls.
